@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
+
+import 'models/pelicula_model.dart';
 class HomePage extends StatelessWidget {
   final peliculasProvider = new PeliculasProvider();
   @override
@@ -18,8 +20,10 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround, //Espacio entre los elementos 
           children: <Widget>[
-            _swipperTarjetas()
+            _swipperTarjetas(),
+            _footer(context),
           ],
         ),
       )
@@ -48,5 +52,27 @@ class HomePage extends StatelessWidget {
    //return  CardSwiper(
      //peliculas: [1,2,3,4,6],
    //);
+ }
+ Widget _footer(BuildContext  context){
+   print(peliculasProvider.getPopulares());
+   return Container(
+     width: double.infinity, //Que utilize todo el espacio 
+     child: Column(
+       children: <Widget>[
+         Text('Populares', 
+              style: Theme.of(context).textTheme.subhead, //Utiliza el subcolor del tema definido
+          ),
+          FutureBuilder(
+            future: peliculasProvider.getPopulares(),
+            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+              //print(snapshot.data);
+              snapshot.data?.forEach((p) => print(p.title)); // el '?' delante del data significa que si existe data
+              return Container();
+            },
+          ),
+       ],
+     ),
+   );
+
  }
 }
