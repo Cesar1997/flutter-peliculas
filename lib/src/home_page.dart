@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
 
-import 'models/pelicula_model.dart';
+import 'widgets/movie_horizontal.dart';
 class HomePage extends StatelessWidget {
   final peliculasProvider = new PeliculasProvider();
   @override
@@ -58,16 +58,29 @@ class HomePage extends StatelessWidget {
    return Container(
      width: double.infinity, //Que utilize todo el espacio 
      child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start, //Alineando texto a la izquierda
        children: <Widget>[
-         Text('Populares', 
-              style: Theme.of(context).textTheme.subhead, //Utiliza el subcolor del tema definido
+
+          Padding(
+           padding: const EdgeInsets.only(left: 20.0),
+           child: Text('Populares', 
+                style: Theme.of(context).textTheme.subhead, //Utiliza el subcolor del tema definido
+            ),
           ),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+          SizedBox(height: 5.0,),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-              //print(snapshot.data);
-              snapshot.data?.forEach((p) => print(p.title)); // el '?' delante del data significa que si existe data
-              return Container();
+              if(snapshot.hasData){
+                return MovieHorizontal(
+                  peliculas: snapshot.data,
+                  siguientePagina: peliculasProvider.getPopulares,
+                );
+              } else {
+                return Center(child: CircularProgressIndicator(
+                  backgroundColor: Colors.red,
+                ),);
+              }
             },
           ),
        ],
