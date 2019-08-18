@@ -66,6 +66,13 @@ class Pelicula {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
     }
   }
+  getBackgroundImg() {
+    if(posterPath == null){
+      return 'https://ucarecdn.com/2c4f81e4-d18c-4aec-aa63-3994c554f1ea/';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+  }
 }
 
 

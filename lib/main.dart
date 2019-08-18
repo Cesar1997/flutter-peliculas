@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/home_page.dart';
+import 'package:peliculas/src/widgets/pelicula_detalle.dart';
 /*  
   UserAccount
   devflutterCesar
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/' : (BuildContext context) => HomePage(),
+        'detalle' : (BuildContext context) => PeliculaDetalle()
       },
     );
   }
